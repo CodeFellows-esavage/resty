@@ -1,22 +1,20 @@
 import React from 'react';
-
 import './form.scss';
 
-class Form extends React.Component {
+function Form(props) {
 
-  handleSubmit = e => {
+  function handleSubmit(e) {
     e.preventDefault();
     const formData = {
-      method:'GET',
+      method: 'GET',
       url: 'https://pokeapi.co/api/v2/pokemon',
     };
-    this.props.handleApiCall(formData);
+    props.handleApiCall(formData);
   }
 
-  render() {
-    return (
-      <>
-        <form onSubmit={this.handleSubmit}>
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
           <label >
             <span>URL: </span>
             <input name='url' type='text' />
@@ -30,8 +28,7 @@ class Form extends React.Component {
           </label>
         </form>
       </>
-    );
-  }
+  );
 }
 
 export default Form;
