@@ -14,17 +14,24 @@ function App() {
 
   let [data, setData] = useState(null);
   let [requestParams, setRequestParams] = useState({});
+  let [loading, updateLoading] = useState(false);
 
-  function callApi(requestParams) {
-    const data = {
-      count: 2,
-      results: [
-        { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-        { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-      ],
-    };
-    setData(data);
+  async function callApi(requestParams) {
+    updateLoading(true);
     setRequestParams(requestParams);
+
+    setTimeout(() => {
+
+      const data = {
+        count: 2,
+        results: [
+          { name: 'fake thing 1', url: 'http://fakethings.com/1' },
+          { name: 'fake thing 2', url: 'http://fakethings.com/2' },
+        ],
+      };
+      updateLoading(false);
+      setData(data);
+    }, 5000)
   }
 
   return (
@@ -33,7 +40,7 @@ function App() {
       <div>Request Method: {requestParams.method}</div>
       <div>URL: {requestParams.url}</div>
       <Form handleApiCall={callApi} />
-      <Results data={data} />
+      <Results data={data} loading={loading} />
       <Footer />
     </React.Fragment>
   )
