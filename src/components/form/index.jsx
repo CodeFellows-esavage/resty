@@ -41,18 +41,18 @@ function Form(props) {
       <form onSubmit={handleSubmit}>
           <label >
             <span>URL: </span>
-            <input name='url' type='text' />
-            <button type="submit">SUBMIT</button>
+            <input name='url'  data-testid="url" type='text' />
+            <button type="submit" data-testid="submit">SUBMIT</button>
           </label>
           <label className="methods">
-            <span onClick={handleSelect} id="get">GET</span>
-            <span onClick={handleSelect} id="post">POST</span>
-            <span onClick={handleSelect} id="put">PUT</span>
-            <span onClick={handleSelect} id="delete">DELETE</span>
+            <span onClick={handleSelect} data-testid="get" id="get">GET</span>
+            <span onClick={handleSelect} data-testid="post" id="post">POST</span>
+            <span onClick={handleSelect} data-testid="put" id="put">PUT</span>
+            <span onClick={handleSelect} data-testid="delete" id="delete">DELETE</span>
           </label> 
             {((method === 'POST' || method === 'PUT') && 
               <label>JSON Object:
-                <input type="text"></input>
+                <input type="text"  data-testid="jsonObj"></input>
               </label>
             )}
 
