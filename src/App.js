@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-
+import axios from 'axios';
 import './app.scss';
 
 // Let's talk about using index.js and some other name in the component folder
@@ -19,7 +19,11 @@ function App() {
   async function callApi(requestParams) {
     updateLoading(true);
     setRequestParams(requestParams);
+    console.log(requestParams.method);
+    console.log(requestParams.url);
+    let result = await axios(requestParams);
 
+    console.log(result.data);
     setTimeout(() => {
 
       const data = {
@@ -30,7 +34,8 @@ function App() {
         ],
       };
       updateLoading(false);
-      setData(data);
+      // setData(data);
+      setData(result.data);
     }, 5000)
   }
 
