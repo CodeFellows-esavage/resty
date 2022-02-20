@@ -31,7 +31,7 @@ function Form(props) {
       url: e.target[0].value,
     };
 
-    if (method === 'POST' || method === "PUT") formData.jsonObj = e.target[2].value;
+    if (method === 'POST' || method === "PUT") formData.data = JSON.parse(e.target[2].value);
     console.log(formData);
     props.handleApiCall(formData);
   }
@@ -41,7 +41,7 @@ function Form(props) {
       <form onSubmit={handleSubmit}>
           <label >
             <span>URL: </span>
-            <input name='url'  data-testid="url" type='text' />
+            <input name='url' id='url-input' data-testid="url" type='text' />
             <button type="submit" data-testid="submit">SUBMIT</button>
           </label>
           <label className="methods">
