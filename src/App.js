@@ -7,7 +7,7 @@ import './app.scss';
 // There's pros and cons for each way of doing this ...
 import Header from './components/header';
 import Footer from './components/footer';
-import Form from './components/form';
+import Form from './components/form/form';
 import Results from './components/results';
 
 function App() {
@@ -19,24 +19,20 @@ function App() {
   async function callApi(requestParams) {
     updateLoading(true);
     setRequestParams(requestParams);
-    console.log(requestParams.method);
-    console.log(requestParams.url);
     let result = await axios(requestParams);
+    console.log(result);
 
     console.log(result.data);
     setTimeout(() => {
-
+      console.log(result.headers)
       const data = {
-        count: 2,
-        results: [
-          { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-          { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-        ],
+        header: result.headers,
+        data: result.data
       };
       updateLoading(false);
-      // setData(data);
-      setData(result.data);
-    }, 5000)
+      setData(data);
+      // setData(result.data);
+    }, 1000)
   }
 
   return (
