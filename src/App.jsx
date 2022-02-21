@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { initialState, reducer } from './reducers/reducer';
 import axios from 'axios';
 import './app.scss';
@@ -25,6 +25,7 @@ function App() {
       };
       updateLoading(false);
       setData(data);
+      updateHistory(state.requestParams, data);
     }
     if (state.requestParams && state.requestParams.method) fetch();
   }, [state.requestParams])
@@ -45,6 +46,18 @@ function App() {
     dispatch({
       type: 'SET_DATA',
       payload: data,
+    });
+  }
+
+  function updateHistory(requestParams, data){
+    let reqHistory = {
+      method: requestParams.method,
+      url: requestParams.url,
+      data: data
+    }
+    dispatch({
+      type: 'UPDATE_HISTORY',
+      payload: reqHistory
     });
   }
 
