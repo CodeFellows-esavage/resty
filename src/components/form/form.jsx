@@ -28,31 +28,31 @@ function Form(props) {
     e.preventDefault();
     const formData = {
       method: method,
-      url: e.target[0].value,
+      url: e.target.urlinput.value,
     };
-
-    if (method === 'POST' || method === "PUT") formData.jsonObj = e.target[2].value;
-    console.log(formData);
+    if (method === 'POST' || method === "PUT") formData.data = JSON.parse(e.target.reqbody.value);
+    console.log(formData.data);
     props.handleApiCall(formData);
   }
+
 
   return (
     <>
       <form onSubmit={handleSubmit}>
           <label >
             <span>URL: </span>
-            <input name='url'  data-testid="url" type='text' />
+            <input name='url' id='urlinput' data-testid="url" type='text' />
             <button type="submit" data-testid="submit">SUBMIT</button>
           </label>
           <label className="methods">
-            <span onClick={handleSelect} data-testid="get" id="get">GET</span>
-            <span onClick={handleSelect} data-testid="post" id="post">POST</span>
-            <span onClick={handleSelect} data-testid="put" id="put">PUT</span>
-            <span onClick={handleSelect} data-testid="delete" id="delete">DELETE</span>
+            <button type="button" onClick={handleSelect} data-testid="get" id="get">GET</button>
+            <button type="button" onClick={handleSelect} data-testid="post" id="post">POST</button>
+            <button type="button" onClick={handleSelect} data-testid="put" id="put">PUT</button>
+            <button type="button" onClick={handleSelect} data-testid="delete" id="delete">DELETE</button>
           </label> 
             {((method === 'POST' || method === 'PUT') && 
-              <label>JSON Object:
-                <input type="text"  data-testid="jsonObj"></input>
+              <label for="reqbody">BODY:
+                <input type="text" id="reqbody" name="reqbody" data-testid="reqbody" />
               </label>
             )}
 

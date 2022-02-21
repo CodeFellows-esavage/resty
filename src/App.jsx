@@ -1,14 +1,14 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './app.scss';
 
 // Let's talk about using index.js and some other name in the component folder
 // There's pros and cons for each way of doing this ...
-import Header from './components/header';
-import Footer from './components/footer';
-import Form from './components/form';
-import Results from './components/results';
+import Header from './components/header/header';
+import Footer from './components/footer/footer';
+import Form from './components/form/form';
+import Results from './components/results/results';
 
 function App() {
 
@@ -16,27 +16,23 @@ function App() {
   let [requestParams, setRequestParams] = useState({});
   let [loading, updateLoading] = useState(false);
 
+  useEffect(() => {
+    let fetch = async () => {
+      let result = await axios(requestParams);
+      console.log(result);
+      const data = {
+        header: result.headers,
+        data: result.data
+      };
+      updateLoading(false);
+      setData(data);
+    }
+    if (requestParams && requestParams.method) fetch();
+  }, [requestParams])
+
   async function callApi(requestParams) {
     updateLoading(true);
     setRequestParams(requestParams);
-    console.log(requestParams.method);
-    console.log(requestParams.url);
-    let result = await axios(requestParams);
-
-    console.log(result.data);
-    setTimeout(() => {
-
-      const data = {
-        count: 2,
-        results: [
-          { name: 'fake thing 1', url: 'http://fakethings.com/1' },
-          { name: 'fake thing 2', url: 'http://fakethings.com/2' },
-        ],
-      };
-      updateLoading(false);
-      // setData(data);
-      setData(result.data);
-    }, 5000)
   }
 
   return (
