@@ -1,5 +1,6 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
+import { initialState, reducer } from './reducers/reducer';
 import axios from 'axios';
 import './app.scss';
 
@@ -12,13 +13,11 @@ import Results from './components/results/results';
 
 function App() {
 
-  let [data, setData] = useState(null);
-  let [requestParams, setRequestParams] = useState({});
-  let [loading, updateLoading] = useState(false);
+  let [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     let fetch = async () => {
-      let result = await axios(requestParams);
+      let result = await axios(state.requestParams);
       console.log(result);
       const data = {
         header: result.headers,
@@ -27,21 +26,40 @@ function App() {
       updateLoading(false);
       setData(data);
     }
-    if (requestParams && requestParams.method) fetch();
-  }, [requestParams])
+    if (state.requestParams && state.requestParams.method) fetch();
+  }, [state.requestParams])
 
-  async function callApi(requestParams) {
+  function setReqParams(requestParams) {
+    dispatch({
+      type: 'SET_REQ_PARAMS',
+      payload: requestParams,
+    });
+  }
+  function updateLoading(status) {
+    dispatch({
+      type: 'UPDATE_LOADING',
+      payload: status,
+    });
+  }
+  function setData(data) {
+    dispatch({
+      type: 'SET_DATA',
+      payload: data,
+    });
+  }
+
+  function callApi(requestParams) {
     updateLoading(true);
-    setRequestParams(requestParams);
+    setReqParams(requestParams);
   }
 
   return (
     <React.Fragment>
       <Header />
-      <div>Request Method: {requestParams.method}</div>
-      <div>URL: {requestParams.url}</div>
+      <div>Request Method: {state.requestParams.method}</div>
+      <div>URL: {state.requestParams.url}</div>
       <Form handleApiCall={callApi} />
-      <Results data={data} loading={loading} />
+      <Results data={state.data} loading={state.loading} />
       <Footer />
     </React.Fragment>
   )
