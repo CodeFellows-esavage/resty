@@ -1,7 +1,8 @@
 export const initialState = {
   data: null,
   requestParams: {},
-  loading: false
+  loading: false,
+  history: [],
 }
 
 export function reducer(state, action) {
@@ -12,6 +13,8 @@ export function reducer(state, action) {
       return { ...state, loading: action.payload };
     case 'SET_DATA':
       return { ...state, data: action.payload };
+    case 'UPDATE_HISTORY':
+      return { ...state, history: [...state.history, action.payload] }  
     default:
       return state;
   }
