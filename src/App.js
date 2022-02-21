@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import './app.scss';
 
@@ -16,23 +16,23 @@ function App() {
   let [requestParams, setRequestParams] = useState({});
   let [loading, updateLoading] = useState(false);
 
-  async function callApi(requestParams) {
-    updateLoading(true);
-    setRequestParams(requestParams);
-    let result = await axios(requestParams);
-    console.log(result);
-
-    console.log(result.data);
-    setTimeout(() => {
-      console.log(result.headers)
+  useEffect(() => {
+    let fetch = async () => {
+      let result = await axios(requestParams);
+      console.log(result);
       const data = {
         header: result.headers,
         data: result.data
       };
       updateLoading(false);
       setData(data);
-      // setData(result.data);
-    }, 1000)
+    }
+    if (requestParams && requestParams.method) fetch();
+  }, [requestParams])
+
+  async function callApi(requestParams) {
+    updateLoading(true);
+    setRequestParams(requestParams);
   }
 
   return (
