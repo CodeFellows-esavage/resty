@@ -10,6 +10,7 @@ import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import Form from './components/form/form';
 import Results from './components/results/results';
+import History from './components/history/history';
 
 function App() {
 
@@ -73,6 +74,7 @@ function App() {
       <div>URL: {state.requestParams.url}</div>
       <Form handleApiCall={callApi} />
       <Results data={state.data} loading={state.loading} />
+      <History history={state.history}/>
       <Footer />
     </React.Fragment>
   )
