@@ -31,7 +31,6 @@ function Form(props) {
       url: e.target.urlinput.value,
     };
     if (method === 'POST' || method === "PUT") formData.data = JSON.parse(e.target.reqbody.value);
-    console.log(formData.data);
     props.handleApiCall(formData);
   }
 
@@ -51,7 +50,7 @@ function Form(props) {
             <button type="button" onClick={handleSelect} data-testid="delete" id="delete">DELETE</button>
           </label> 
             {((method === 'POST' || method === 'PUT') && 
-              <label for="reqbody">BODY:
+              <label>BODY:
                 <input type="text" id="reqbody" name="reqbody" data-testid="reqbody" />
               </label>
             )}
